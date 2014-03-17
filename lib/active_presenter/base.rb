@@ -5,7 +5,7 @@ module ActivePresenter
     extend  ActiveModel::Callbacks
     extend  ActiveModel::Naming
     extend  ActiveModel::Translation
-    include ActiveModel::MassAssignmentSecurity
+    include ActiveModel::ForbiddenAttributesProtection
     include ActiveModel::Conversion
 
     attr_reader :errors
