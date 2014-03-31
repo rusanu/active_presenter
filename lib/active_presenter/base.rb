@@ -140,7 +140,7 @@ module ActivePresenter
     def valid?
       validated = false
       errors.clear
-      result = _run_validation_callbacks do
+      result = run_callbacks :validation do
         presented.keys.each do |type|
           presented_inst = send(type)
           next unless save?(type, presented_inst)
@@ -164,7 +164,7 @@ module ActivePresenter
       saved = false
       ActiveRecord::Base.transaction do
         if valid?
-          _run_save_callbacks do
+          run_callbacks :save do
             saved = presented.keys.select {|key| save?(key, send(key))}.all? {|key| send(key).save}
             raise ActiveRecord::Rollback unless saved
           end
@@ -181,7 +181,7 @@ module ActivePresenter
       saved = false
       ActiveRecord::Base.transaction do
         raise ActiveRecord::RecordInvalid.new(self) unless valid?
-        _run_save_callbacks do
+        run_callbacks :save do
           presented.keys.select {|key| save?(key, send(key))}.all? {|key| send(key).save!}
           saved = true
         end
