@@ -151,6 +151,12 @@ module ActivePresenter
       errors.empty? && validated
     end
 
+    # List all validators that are being used to validate a specific attribute.
+    #
+    def self.validators_on(*attributes)
+      []
+    end
+
     # Do any of the attributes have unsaved changes?
     def changed?
       presented_instances.map(&:changed?).any?
